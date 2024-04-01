@@ -2,7 +2,9 @@
 
 The `gem rebuild` command allows you to build a gem and compare it to an existing `.gem` file, to see if they are identical.
 
-This command provides a base for implementing [Reproducible Builds](https://reproducible-builds.org/) for Ruby gems.
+This command simplifies [Reproducible Builds](https://reproducible-builds.org/) for Gems.
+
+This is the plugin version installable from [RubyGems.org](https://rubygems.org/gems/gem-rebuild). Later versions of RubyGems are expected to integrate this functionality.
 
 ## Installation
 
