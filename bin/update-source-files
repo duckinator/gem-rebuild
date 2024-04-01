@@ -11,3 +11,12 @@ sed -i 's/require_relative "..\/package"/require "rubygems\/package"/' lib/rubyg
 
 # Add `gem rebuild --version`
 sed -i 's/ *add_option "--diff"/    add_option("--version", "Print gem-rebuild version and exist") { |_, _| require "gem\/rebuild\/version"; puts "gem-rebuild v#{Gem::Rebuild::VERSION}"; exit }\n\n\0/' lib/rubygems/commands/rebuild_command.rb
+
+
+# Test-related code
+
+mkdir -p test/rubygems
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/test/rubygems/utilities.rb -O test/rubygems/utilities.rb
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/test/rubygems/mock_gem_ui.rb -O test/rubygems/mock_gem_ui.rb
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/test/rubygems/helper.rb -O test/rubygems/helper.rb
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/test/rubygems/test_gem_commands_rebuild_command.rb -O test/rubygems/test_gem_commands_rebuild_command.rb

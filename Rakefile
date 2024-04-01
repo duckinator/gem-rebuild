@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require "rake/testtask"
 
-RSpec::Core::RakeTask.new(:spec)
+Rake::TestTask.new do |t|
+  t.ruby_opts = %w[-w]
+  t.ruby_opts << "-rdevkit" if RbConfig::CONFIG["host_os"].include?("mingw")
 
-task default: :spec
+  t.libs << "test"
+  t.test_files = FileList["test/**/test_*.rb"]
+end
+
+task default: :test
