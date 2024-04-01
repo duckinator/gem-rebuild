@@ -8,3 +8,6 @@ wget https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/com
 
 sed -i 's/require_relative "..\/rubygems"/require "rubygems"/' lib/rubygems/gemspec_helpers.rb
 sed -i 's/require_relative "..\/package"/require "rubygems\/package"/' lib/rubygems/commands/rebuild_command.rb
+
+# Add `gem rebuild --version`
+sed -i 's/ *add_option "--diff"/    add_option("--version", "Print gem-rebuild version and exist") { |_, _| require "gem\/rebuild\/version"; puts "gem-rebuild v#{Gem::Rebuild::VERSION}"; exit }\n\n\0/' lib/rubygems/commands/rebuild_command.rb

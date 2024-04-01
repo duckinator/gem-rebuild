@@ -13,6 +13,8 @@ class Gem::Commands::RebuildCommand < Gem::Command
   def initialize
     super "rebuild", "Attempt to reproduce a build of a gem."
 
+    add_option("--version", "Print gem-rebuild version and exist") { |_, _| require "gem/rebuild/version"; puts "gem-rebuild v#{Gem::Rebuild::VERSION}"; exit }
+
     add_option "--diff", "If the files don't match, compare them using diffoscope." do |_value, options|
       options[:diff] = true
     end
