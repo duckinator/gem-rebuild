@@ -6,6 +6,7 @@ Linux_task:
       - image: ruby:3.1-bookworm
   script:
     - ruby --version
+    - gem --version
     - rake test
 
 macOS_task:
@@ -25,6 +26,7 @@ macOS_task:
     - brew install ruby@${RUBY}
   script:
     - ruby --version
+    - gem --version
     - rake test
 
 # TODO: Test on Windows
@@ -44,6 +46,7 @@ Windows_task:
     - ridk install 2 3
   script:
     - ruby --version
+    - gem --version
     - rake test
 
 success_task:
