@@ -4,6 +4,8 @@ Linux_task:
       - image: ruby:3.3-bookworm
       - image: ruby:3.2-bookworm
       - image: ruby:3.1-bookworm
+  rubygems_update_script:
+    - gem update --system
   script:
     - ruby --version
     - gem --version
@@ -24,6 +26,8 @@ macOS_task:
     # Per the pyenv homebrew recommendations.
     #  https://github.com/pyenv/pyenv/wiki#suggested-build-environment
     - brew install ruby@${RUBY}
+  rubygems_update_script:
+    - gem update --system
   script:
     - ruby --version
     - gem --version
@@ -44,6 +48,8 @@ Windows_task:
     # NOTE: This overwrites the %RUBY% environment variable.
     - Update-SessionEnvironment
     - ridk install 2 3
+  rubygems_update_script:
+    - gem update --system
   script:
     - ruby --version
     - gem --version
