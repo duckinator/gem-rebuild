@@ -14,7 +14,7 @@ Linux_task:
 rebuild_okay_task:
   container:
     # Okay v12.0.4 is built using Ruby 3.3.0 and RubyGems 3.5.7
-    - image: ruby:3.3.0-bookworm
+    image: ruby:3.3.0-bookworm
   git_install_script:
     - apt update
     - apt install -y git
