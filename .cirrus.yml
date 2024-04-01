@@ -18,6 +18,7 @@ rebuild_okay_task:
   git_install_script:
     - apt update
     - apt install -y git
+    - git config advice.detachedHead false
   rubygems_update_script:
     - gem update --system 3.5.7
   plugin_install_script:
