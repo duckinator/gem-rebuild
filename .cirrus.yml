@@ -46,7 +46,7 @@ Windows_task:
     - cinst -y ruby --version=%RUBY% --package-parameters="/InstallDir:C:\Ruby"
     - cinst -y msys2 --params "/NoUpdate"
     # NOTE: This overwrites the %RUBY% environment variable.
-    - Update-SessionEnvironment
+    - refreshenv
     - ridk install 2 3
   rubygems_update_script:
     - gem update --system
