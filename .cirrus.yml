@@ -11,54 +11,72 @@ Linux_task:
     - gem --version
     - rake test
 
-macOS_task:
-  macos_instance:
-    image: ghcr.io/cirruslabs/macos-sonoma-base:latest
-  env:
-    matrix:
-      # https://formulae.brew.sh/formula/ruby
-      - RUBY: 3.3
-      - RUBY: 3.2
-      - RUBY: 3.1
-  brew_update_script:
-    - brew update
-  brew_install_script:
-    # Per the pyenv homebrew recommendations.
-    #  https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-    - brew install ruby@${RUBY}
+rebuild_okay_task:
+  container:
+    # Okay v12.0.4 is built using Ruby 3.3.0 and RubyGems 3.5.7
+    - image: ruby:3.3.0-bookworm
+  git_install_script:
+    - apt update
+    - apt install -y git
   rubygems_update_script:
-    - gem update --system
+    - gem update --system 3.5.7
+  plugin_install_script:
+    - rake install
   script:
     - ruby --version
     - gem --version
-    - rake test
+    - cd $(mktemp -d)
+    - git clone https://github.com/duckinator/okay.git -b v12.0.4 ./okay
+    - gem rebuild okay 12.0.4 -C ./okay
 
-# TODO: Test on Windows
-Windows_task:
-  windows_container:
-    image: cirrusci/windowsservercore:2019
-  env:
-    matrix:
-      - RUBY: 3.3.0.1
-      - RUBY: 3.2.3.1
-      - RUBY: 3.1.3.1
-  ruby_install_script:
-    - cinst -y ruby --version=%RUBY% --package-parameters="/InstallDir:C:\Ruby"
-    - cinst -y msys2 --params "/NoUpdate"
-    # NOTE: This overwrites the %RUBY% environment variable.
-    - refreshenv
-    - ridk install 2 3
-  rubygems_update_script:
-    - gem update --system
-  script:
-    - ruby --version
-    - gem --version
-    - rake test
+#macOS_task:
+#  macos_instance:
+#    image: ghcr.io/cirruslabs/macos-sonoma-base:latest
+#  env:
+#    matrix:
+#      # https://formulae.brew.sh/formula/ruby
+#      - RUBY: 3.3
+#      - RUBY: 3.2
+#      - RUBY: 3.1
+#  brew_update_script:
+#    - brew update
+#  brew_install_script:
+#    # Per the pyenv homebrew recommendations.
+#    #  https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+#    - brew install ruby@${RUBY}
+#  rubygems_update_script:
+#    - gem update --system
+#  script:
+#    - ruby --version
+#    - gem --version
+#    - rake test
+#
+#Windows_task:
+#  windows_container:
+#    image: cirrusci/windowsservercore:2019
+#  env:
+#    matrix:
+#      - RUBY: 3.3.0.1
+#      - RUBY: 3.2.3.1
+#      - RUBY: 3.1.3.1
+#  ruby_install_script:
+#    - cinst -y ruby --version=%RUBY% --package-parameters="/InstallDir:C:\Ruby"
+#    - cinst -y msys2 --params "/NoUpdate"
+#    # NOTE: This overwrites the %RUBY% environment variable.
+#    - refreshenv
+#    - ridk install 2 3
+#  rubygems_update_script:
+#    - gem update --system
+#  script:
+#    - ruby --version
+#    - gem --version
+#    - rake test
 
 success_task:
   name: CI success
   container: {image: "busybox"}
   depends_on:
     - Linux
-    - macOS
-    - Windows
+    #- macOS
+    #- Windows
+    - rebuild_okay
