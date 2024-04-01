@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cd "$(realpath "$(dirname "$0")/..")"
+
+mkdir -p lib/rubygems/commands
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/gemspec_helpers.rb -O lib/rubygems/gemspec_helpers.rb
+wget https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/commands/rebuild_command.rb -O lib/rubygems/commands/rebuild_command.rb
+
+sed -i 's/require_relative "..\/rubygems"/require "rubygems"/' lib/rubygems/gemspec_helpers.rb
+sed -i 's/require_relative "..\/package"/require "rubygems\/package"/' lib/rubygems/commands/rebuild_command.rb
